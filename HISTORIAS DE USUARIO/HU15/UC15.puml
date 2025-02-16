@@ -1,0 +1,21 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+  usecase "Registrar acciones afirmativas para postulantes" as UC15_MAIN
+  usecase "Validar candidato\ny criterios LOES" as UC15_VALIDAR
+  usecase "Guardar registro de acciones\nen base de datos" as UC15_GUARDAR
+  usecase "Emitir confirmación del registro" as UC15_CONFIRMAR
+}
+
+UC15_MAIN <.. UC15_VALIDAR : <<include>>
+UC15_MAIN <.. UC15_GUARDAR : <<include>>
+UC15_MAIN <.. UC15_CONFIRMAR : <<include>>
+
+ActorAnalista --> UC15_MAIN : "Registrar acciones afirmativas"
+@enduml

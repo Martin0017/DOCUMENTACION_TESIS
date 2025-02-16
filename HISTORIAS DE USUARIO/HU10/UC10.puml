@@ -1,0 +1,24 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Administrador de Talento Humano" as AdminTalento
+actor "Postulante" as ActorPostulante
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+  usecase "Recibir resultados\nde apelaciones" as UC10_1
+  usecase "Publicar resultados\najustados en el sistema" as UC10_2
+  usecase "Consultar resultados\nactualizados" as UC10_3
+}
+}
+
+AdminTalento --> UC10_1 : "Registrar resultados ajustados"
+UC10_1 --> UC10_2 : "Incorporar datos al sistema"
+ActorPostulante --> UC10_3 : "Consultar resultados actualizados"
+
+@enduml

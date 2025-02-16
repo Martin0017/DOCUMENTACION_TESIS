@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+
+  usecase "Generar reporte\nde mejores puntuados" as UC08
+  usecase "Consultar notas\nde postulantes" as UC08_1
+  usecase "Aplicar criterios\nde selección" as UC08_2
+  usecase "Incluir lógica\nde desempate" as UC08_3
+  usecase "Mostrar reporte\nde candidatos" as UC08_4
+}
+}
+
+'' Relaciones principales del caso de uso
+ActorAnalista --> UC08 : "Solicitar generación del reporte"
+UC08 --> UC08_1 : <<include>>
+UC08 --> UC08_2 : <<include>>
+UC08 --> UC08_3 : <<include>>
+UC08 --> UC08_4 : "Obtener reporte final"
+
+@enduml

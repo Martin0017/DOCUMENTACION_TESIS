@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+actor "Sistema" as SistemaActor
+actor "UTH (Analista de Talento Humano)" as ActorUTH
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+  usecase "Cálculo del puntaje final" as UC16_MAIN
+  usecase "Obtener calificaciones de mérito y oposición" as UC16_OBTENER
+  usecase "Agregar puntaje por acciones afirmativas" as UC16_ACCIONES
+  usecase "Sumar puntajes obtenidos" as UC16_SUMAR
+  usecase "Generar resultados completos del puntaje final" as UC16_RESULTADO
+  usecase "Mostrar puntaje final a usuarios relevantes" as UC16_MOSTRAR
+}
+
+UC16_MAIN <.. UC16_OBTENER : <<include>>
+UC16_MAIN <.. UC16_ACCIONES : <<include>>
+UC16_MAIN <.. UC16_SUMAR : <<include>>
+UC16_MAIN <.. UC16_RESULTADO : <<include>>
+UC16_MAIN <.. UC16_MOSTRAR : <<include>>
+
+ActorUTH --> UC16_MAIN : "Solicitar cálculo de puntaje"
+SistemaActor --> UC16_MOSTRAR : "Publicar puntaje final"
+
+@enduml

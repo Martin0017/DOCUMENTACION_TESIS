@@ -1,0 +1,140 @@
+@startuml
+!theme sunlust
+skinparam backgroundColor #FFFFFF
+skinparam NodeSep 5
+skinparam RankSep 25
+skinparam Padding 0
+skinparam dpi 150
+
+top to bottom direction
+
+object Puesto {
+  descripción
+  unidadRequiriente
+  código
+  cantidad
+  campus
+  áreaDeConocimiento
+}
+
+object Proceso_de_Contratación {
+  nombre
+  fechaCreación
+  fechaInicio
+  fechaFin
+}
+
+object Proceso_de_Contratación_Estado {
+  descripción
+}
+
+object Proceso_de_Contratación_Plan {
+  tipo
+}
+
+object Tipo_de_Personal {
+  descripción
+}
+
+object Postulante_Puesto {
+  url
+}
+
+object Postulante {
+  cédula
+  keyCloakUid
+  email
+  capacitación
+  experienciaLaboral
+  formaciónAcadémica
+  idioma
+  informaciónPersonal
+  publicación
+}
+
+object Postulante_Estado {
+  descripción
+}
+
+object Evaluación {
+  puntaje
+  observación
+  responsable
+}
+
+object Verificación {
+  descripción
+  notaCumplimiento
+  nota
+  respuestaEsperada
+}
+
+object Evaluación_Tipo {
+  descripción
+}
+
+object Pregunta {
+  descripción
+}
+
+object Respuesta {
+  descripción
+  valor
+}
+
+object Cumplimiento {
+  columna
+  nota
+  notaCumplimiento
+  descripción
+}
+
+object Documento {
+  descripción
+  nombreDocumento
+  tipo
+}
+
+object Sub_actividad {
+  nombre
+  descripción
+  fechaInicio
+  fechaFin
+  esApelable
+}
+
+object Requisito_Puesto
+
+object Requisito {
+  descripción
+  escala
+  tipo
+  extensa
+  puntajeMinimo
+  puntajeMáximo
+}
+
+object Comisión_Evaluación {
+  integrantes
+}
+
+Puesto --> Proceso_de_Contratación : pertenece a un
+Proceso_de_Contratación --> Proceso_de_Contratación_Estado : tiene un
+Proceso_de_Contratación --> Proceso_de_Contratación_Plan : pertenece a un
+Puesto --> Tipo_de_Personal : para un
+Puesto <-- Postulante_Puesto : póstula a un
+Postulante_Puesto --> Postulante : para un
+Postulante_Puesto --> Postulante_Estado : tiene un
+Postulante_Puesto --> Evaluación : realiza
+Postulante_Puesto <-- Verificación : se realiza a
+Evaluación --> Evaluación_Tipo : tiene un
+Evaluación <-- Pregunta : posee
+Pregunta --> Respuesta : tiene
+Verificación <-- Cumplimiento : posee
+Verificación <-- Documento : posee
+Puesto --> Sub_actividad : tiene
+Puesto --> Requisito_Puesto : se asocia
+Requisito_Puesto --> Requisito : se asocia
+Puesto --> Comisión_Evaluación : evalúa
+
+@enduml

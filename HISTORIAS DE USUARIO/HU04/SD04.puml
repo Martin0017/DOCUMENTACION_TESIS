@@ -1,0 +1,61 @@
+@startuml
+participant Usuario
+
+== Interacción inicial en el cliente ==
+Usuario -> ListadoPostulantesLmComponent : exportToExcel()
+activate ListadoPostulantesLmComponent
+ListadoPostulantesLmComponent -> DocumentsService : postExportExcel(data)
+activate DocumentsService
+DocumentsService -> Backend : POST /api/v1.0/private/excel/export-excel
+activate Backend
+
+== Lógica del servidor al manejar el Excel ==
+Backend -> ServicioExportacion : generarExcel(datos)
+activate ServicioExportacion
+ServicioExportacion -> FormatoExcel : crearHeaderCellStyle()
+activate FormatoExcel
+FormatoExcel --> ServicioExportacion : Header style
+deactivate FormatoExcel
+
+ServicioExportacion -> FormatoExcel : crearDataCellStyle()
+activate FormatoExcel
+FormatoExcel --> ServicioExportacion : Data style
+deactivate FormatoExcel
+
+ServicioExportacion -> FormatoExcel : agregarDatos(data)
+FormatoExcel --> ServicioExportacion : Fila final en formateada
+ServicioExportacion --> Backend : Archivo Excel generado
+deactivate ServicioExportacion
+
+Backend --> DocumentsService : Blob (archivo Excel)
+deactivate Backend
+DocumentsService -> Usuario : Guarda archivo como 'postulantes.xlsx'
+deactivate DocumentsService
+ListadoPostulantesLmComponent -> Usuario : Archivo Excel descargado
+deactivate ListadoPostulantesLmComponent
+
+== Exportar a CSV ==
+Usuario -> ListadoPostulantesLmComponent : exportToCSV()
+activate ListadoPostulantesLmComponent
+ListadoPostulantesLmComponent -> DocumentsService : postExportCSV(data)
+activate DocumentsService
+DocumentsService -> Backend : POST /api/v1.0/private/excel/export-csv
+activate Backend
+
+== Lógica del servidor al manejar el CSV ==
+Backend -> ServicioExportacion : generarCsv(datos)
+activate ServicioExportacion
+ServicioExportacion -> FormatoCsv : procesarDatosParaCsv(datos)
+activate FormatoCsv
+FormatoCsv --> ServicioExportacion : Datos convertidos en formato CSV
+deactivate FormatoCsv
+ServicioExportacion --> Backend : Archivo CSV generado
+deactivate ServicioExportacion
+
+Backend --> DocumentsService : Blob (archivo CSV)
+deactivate Backend
+DocumentsService -> Usuario : Guarda archivo como 'postulantes.csv'
+deactivate DocumentsService
+ListadoPostulantesLmComponent -> Usuario : Archivo CSV descargado
+deactivate ListadoPostulantesLmComponent
+@enduml

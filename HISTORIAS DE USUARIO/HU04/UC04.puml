@@ -1,0 +1,38 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+actor "Sistema Moodle" as SistemaMoodle
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+
+  usecase "Generar reporte\nformato Moodle" as UC04
+  usecase "Preparar datos del reporte" as UCGeneralizar
+  usecase "Cargar datos\nde postulantes" as UC04_1
+  usecase "Filtrar postulantes\nsegún criterios" as UC04_2
+  usecase "Validar formato requerido" as UC04_3
+  usecase "Exportar reporte\na Moodle" as UC04_4
+}
+}
+
+'' Relaciones principales del caso de uso
+ActorAnalista --> UC04 : "Solicitar reporte"
+UC04 --> UCGeneralizar : <<include>>
+
+'' Generalización de tareas de preparación
+UCGeneralizar <|-- UC04_1
+UCGeneralizar <|-- UC04_2
+UCGeneralizar <|-- UC04_3
+
+UC04 --> UC04_4 : <<include>>
+
+'' Interacción con el sistema Moodle
+SistemaMoodle <-- UC04_4 : "Recibe reporte en formato compatible"
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+  usecase "Recolectar calificaciones\nde todas las fases hasta la entrevista" as UC11_1
+  usecase "Calcular notas promedio\nde los postulantes" as UC11_2
+  usecase "Generar reporte de\notas promedio" as UC11_3
+}
+
+ActorAnalista --> UC11_1 : "Solicitar datos de calificaciones"
+UC11_1 --> UC11_2 : "Ejecutar cálculo del promedio"
+UC11_2 --> UC11_3 : "Generar reporte final"
+ActorAnalista --> UC11_3 : "Recibir reporte de progreso"
+@enduml

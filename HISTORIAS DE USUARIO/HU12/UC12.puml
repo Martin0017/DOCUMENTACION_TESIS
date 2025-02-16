@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+
+  usecase "Registrar entrevista a postulantes" as UC12_MAIN
+  usecase "Registrar preguntas y puntos\nde la entrevista" as UC12_1
+  usecase "Registrar calificación\nde cada pregunta" as UC12_2
+  usecase "Validar formato y datos\ningresados" as UC12_VALID
+  usecase "Generar resumen de calificaciones\nde entrevista" as UC12_3
+}
+
+UC12_MAIN <.. UC12_1 : <<include>>
+UC12_MAIN <.. UC12_2 : <<include>>
+UC12_1 <.. UC12_VALID : <<include>>
+UC12_2 <.. UC12_VALID : <<include>>
+UC12_MAIN <.. UC12_3 : <<extends>>
+
+ActorAnalista --> UC12_MAIN : "Ingresar datos para entrevista"
+UC12_VALID --> UC12_MAIN : "Control de errores en datos"
+
+@enduml

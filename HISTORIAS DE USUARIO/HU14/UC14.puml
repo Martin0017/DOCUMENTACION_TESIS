@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Postulante" as Postulante
+actor "UTH (Unidad de Talento Humano)" as UTH
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+  usecase "Calcular puntaje final tentativo" as UC14_MAIN
+  usecase "Obtener calificaciones\nde evaluaciones previas" as UC14_1
+  usecase "Aplicar ponderaciones\na evaluaciones" as UC14_2
+  usecase "Generar puntaje transparente\ny verificable" as UC14_3
+  usecase "Validar resultados\ndel cálculo" as UC14_4
+  usecase "Mostrar puntaje final\na UTH y postulante" as UC14_5
+}
+
+UC14_MAIN <.. UC14_1 : <<include>>
+UC14_MAIN <.. UC14_2 : <<include>>
+UC14_MAIN <.. UC14_3 : <<include>>
+UC14_MAIN <.. UC14_4 : <<include>>
+UC14_MAIN <.. UC14_5 : <<include>>
+
+UTH --> UC14_MAIN : "Solicitar cálculo de puntaje"
+Postulante --> UC14_5 : "Consultar puntaje final"
+
+@enduml

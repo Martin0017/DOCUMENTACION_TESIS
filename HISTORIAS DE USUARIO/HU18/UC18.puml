@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+actor "Postulante" as postulante
+actor "Responsable de Proceso" as responsable
+
+rectangle "Caso de Uso: HU18" {
+    (Notificar resultado final a postulante) as notificarResultadoFinal
+    (Actualizar estado del proceso) as actualizarEstado
+    (Generar notificación) as generarNotificacion
+    (Enviar notificación por correo) as enviarCorreo
+
+    postulante --> notificarResultadoFinal : Consulta resultado
+    notificarResultadoFinal <|-- actualizarEstado : <<include>>
+    notificarResultadoFinal <|-- generarNotificacion : <<include>>
+    notificarResultadoFinal <|-- enviarCorreo : <<include>>
+
+    responsable --> actualizarEstado : Actualiza estados de selección
+    responsable --> generarNotificacion : Verifica contenido
+    enviarCorreo --> postulante : Recibe el resultado final
+}
+@enduml

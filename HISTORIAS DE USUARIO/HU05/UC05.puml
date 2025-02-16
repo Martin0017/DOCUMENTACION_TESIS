@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Responsable de evaluación psicométrica" as Responsable
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+  usecase "Registrar notas de\npruebas psicométricas" as UC05
+  usecase "Importar archivo\nde notas" as UC05_1
+  usecase "Validar formato\ndel archivo" as UC05_2
+  usecase "Guardar notas\nen base de datos" as UC05_3
+}
+}
+
+Responsable --> UC05 : "Solicitar registro de notas"
+UC05 .> UC05_1 : <<include>>
+UC05 .> UC05_2 : <<include>>
+UC05 --> UC05_3 : "Registro correcto en sistema"
+
+@enduml

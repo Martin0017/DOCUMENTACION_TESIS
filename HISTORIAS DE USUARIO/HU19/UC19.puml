@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+actor "Postulante" as postulante
+actor "Sistema" as sistema
+actor "Equipo de Selección" as equipo
+
+rectangle "Caso de Uso: Notificación a los mejores puntuados" {
+    (Identificar a los mejores puntuados) as identificarMejores
+    (Generar notificación personalizada) as generarNotificacion
+    (Enviar notificación a los mejores puntuados) as enviarNotificacion
+    (Definir pasos a seguir para ganadores) as definirPasos
+
+    equipo --> identificarMejores : Cierra evaluación
+    identificarMejores <|-- generarNotificacion : <<include>>
+    generarNotificacion <|-- enviarNotificacion : <<include>>
+    enviarNotificacion --> postulante : Recibe notificación de posición
+
+    generarNotificacion <|-- definirPasos : <<include>>
+    sistema --> definirPasos : Incluye pasos para elegibles
+}
+@enduml

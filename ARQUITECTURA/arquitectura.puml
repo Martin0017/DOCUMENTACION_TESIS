@@ -1,0 +1,39 @@
+
+@startuml
+
+!theme aws-orange
+
+start
+
+:Usuario interactúa con la interfaz \n(Capa de Presentación en Angular);
+:Usuario ingresa datos o realiza solicitudes;
+
+if (¿Solicitud válida?) then (Sí)
+    :La Capa de Aplicación en Angular\nprocesa los datos y crea un DTO;
+    :El DTO es enviado al Backend;
+
+    :El Backend recibe la solicitud en la \nCapa de Controlador;
+    :El controlador valida los datos;
+
+    if (¿Requiere servicio externo?) then (Sí)
+        :El controlador solicita un servicio externo\n(correos, autenticación, etc.);
+        :El servicio externo responde al controlador;
+    endif
+
+    if (¿Requiere acceso a la base de datos?) then (Sí)
+        :La Capa de Servicio delega la consulta \na la Capa de Repositorio;
+        :El Repositorio consulta\n a la Base de Datos Oracle;
+        :La Base de Datos responde \ncon la información requerida;
+    endif
+
+    :La información es transformada\npor la Capa de Modelo;
+    :El backend regresa la respuesta\n a la Capa de Aplicación en Angular;
+
+    :El Cliente Angular procesa y muestra\nlos datos en la interfaz gráfica;
+
+else (No)
+    :El controlador devuelve un \nerror de validación al cliente;
+endif
+
+stop
+@enduml

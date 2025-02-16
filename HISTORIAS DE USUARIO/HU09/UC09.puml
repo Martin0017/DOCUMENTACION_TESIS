@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+actor "Postulante" as ActorPostulante
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+
+  usecase "Enviar cronograma\nde pruebas por correo" as UC09
+  usecase "Validar cronograma\nde pruebas" as UC09_1
+  usecase "Generar correos\nindividuales" as UC09_2
+  usecase "Enviar correos\na postulantes" as UC09_3
+}
+}
+
+'' Relación principal con el analista
+ActorAnalista --> UC09 : "Solicitar envío de correos"
+
+'' Relación entre el caso principal y sus dependencias
+UC09 --> UC09_1 : <<include>>
+UC09 --> UC09_2 : <<include>>
+UC09 --> UC09_3 : "Enviar mensajes"
+
+'' Interacción final con los postulantes
+UC09_3 --> ActorPostulante : "Correo recibido"
+
+@enduml

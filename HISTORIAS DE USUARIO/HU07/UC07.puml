@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+  usecase "Subir resultados\nde prueba de campo" as UC07
+  usecase "Cargar archivo\nen formato UTH" as UC07_1
+  usecase "Validar estructura\ny contenido" as UC07_2
+  usecase "Guardar información\nen base de datos" as UC07_3
+}
+}
+
+ActorAnalista --> UC07 : "Solicitar carga de resultados"
+
+UC07 .> UC07_1 : <<include>>
+UC07 .> UC07_2 : <<include>>
+UC07 --> UC07_3 : "Registrar resultados cargados"
+
+@enduml

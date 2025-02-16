@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+actor "Sistema Moodle" as SistemaMoodle
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+
+  usecase "Registrar resultados\nautomáticamente" as UC06
+  usecase "Procesar datos del archivo" as UCGeneralizar
+  usecase "Importar resultados\ndesde Moodle" as UC06_1
+  usecase "Validar archivo\nexportado" as UC06_2
+  usecase "Guardar resultados\nen sistema" as UC06_3
+}
+}
+
+'' Relaciones principales del caso de uso
+SistemaMoodle --> UC06_1 : "Exportar datos"
+ActorAnalista --> UC06 : "Solicitar registro automático"
+UC06 --> UCGeneralizar : <<include>>
+
+'' Generalización de tareas de procesamiento
+UCGeneralizar <|-- UC06_1
+UCGeneralizar <|-- UC06_2
+
+UC06 --> UC06_3 : "Registrar resultados finales"
+
+@enduml

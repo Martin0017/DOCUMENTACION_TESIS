@@ -1,0 +1,28 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+actor "Sistema de Firma Electrónica" as SistemaFirma
+
+rectangle "Sistema de Selección de Personal" as Sistema {
+  usecase "Firmar digitalmente formulario\nde entrevista" as UC13_MAIN
+  usecase "Validar formulario previo\na firma digital" as UC13_VALIDAR
+  usecase "Generar formulario final\nen formato PDF" as UC13_GENERAR_PDF
+  usecase "Excluir formularios para \ncasos LOES" as UC13_EXCLUIR
+  usecase "Enviar formulario firmado\na repositorio seguro" as UC13_ENVIAR
+}
+
+UC13_MAIN <.. UC13_VALIDAR : <<include>>
+UC13_MAIN <.. UC13_GENERAR_PDF : <<include>>
+UC13_MAIN <.. UC13_EXCLUIR : <<include>>
+UC13_MAIN <.. UC13_ENVIAR : <<include>>
+
+ActorAnalista --> UC13_MAIN : "Solicitar firma del formulario"
+SistemaFirma --> UC13_MAIN : "Procesar firma digital"
+
+@enduml

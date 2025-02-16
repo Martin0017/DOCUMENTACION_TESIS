@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+actor "Postulante" as postulante
+actor "Sistema" as sistema
+
+rectangle "Caso de Uso: HU17" {
+    (Enviar puntaje final al postulante) as enviarPuntajeFinal
+    (Calcular puntaje final) as calcularPuntaje
+    (Generar contenido del correo) as generarCorreo
+    (Notificar por correo electrónico) as notificarCorreo
+
+    postulante --> enviarPuntajeFinal : Consulta su posición final
+    enviarPuntajeFinal <|-- calcularPuntaje : <<include>>
+    enviarPuntajeFinal <|-- generarCorreo : <<include>>
+    enviarPuntajeFinal <|-- notificarCorreo : <<include>>
+
+    sistema --> calcularPuntaje : Solicita cálculo
+    sistema --> generarCorreo : Genera mensaje personalizado
+    sistema --> notificarCorreo : Envía la notificación
+}
+@enduml

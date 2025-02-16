@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+
+  usecase "Generar reporte\nde cumplimiento" as UC02
+  usecase "Seleccionar criterios\nde consulta" as UC02_1
+  usecase "Verificar resultados\nobtenidos" as UC02_2
+  usecase "Preparar puntajes\ny requisitos" as UCGeneralizar
+  usecase "Organizar puntajes" as UC02_3
+  usecase "Generar reporte\ndefinitivo" as UC02_4
+  usecase "Compartir resultados\ncon supervisor" as UC02_5
+}
+}
+
+'' Relaciones principales
+ActorAnalista --> UC02 : "Solicitar generación del reporte"
+UC02 --> UC02_1 : <<include>>
+UC02 --> UC02_2 : <<include>>
+UC02 --> UCGeneralizar : <<include>>
+
+UCGeneralizar <|-- UC02_3
+UCGeneralizar <|-- UC02_4
+
+UC02 --> UC02_5 : <<include>>
+
+'' Resultado al finalizar flujo
+ActorAnalista <-- UC02_5 : "Resultados compartidos"
+@enduml

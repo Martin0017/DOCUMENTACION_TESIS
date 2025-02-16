@@ -1,0 +1,59 @@
+@startuml
+participant Usuario
+
+== Flujo inicial en el cliente ==
+Usuario -> PConocimientosComponentLm : Usar interfaz (guardar evaluaciones)
+activate PConocimientosComponentLm
+PConocimientosComponentLm -> EvaluacionService : guardarMultiples(evaluaciones)
+activate EvaluacionService
+EvaluacionService -> Backend : POST /api/v1.0/private/evaluacion/guardar-multiples
+activate Backend
+
+== Lógica en el backend ==
+Backend -> EvaluacionController : guardarMultiples(evaluaciones)
+activate EvaluacionController
+EvaluacionController -> UserInfoService : getUserInfo()
+activate UserInfoService
+UserInfoService --> EvaluacionController : Información del usuario
+deactivate UserInfoService
+
+EvaluacionController -> EvaluacionService : saveMultiple(evaluaciones)
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionService : Procesar evaluacionesDto
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionTipoService : save(evaluacionTipo)
+activate EvaluacionTipoService
+EvaluacionTipoService -> EvaluacionTipoMapper : toEntity(evaluacionTipoDto)
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService : EvaluacionTipoEntity
+deactivate EvaluacionTipoMapper
+
+EvaluacionTipoService -> EvaluacionTipoMapper : toDto(evaluacionTipo)
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService : EvaluacionTipoDto
+deactivate EvaluacionTipoMapper
+EvaluacionTipoService --> EvaluacionService : EvaluacionTipoDto
+deactivate EvaluacionTipoService
+
+EvaluacionService -> EvaluacionMapper : toEntity(evaluacionDto)
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService : EvaluacionEntity
+deactivate EvaluacionMapper
+
+EvaluacionService --> EvaluacionService : Evaluaciones completadas
+deactivate EvaluacionService
+
+EvaluacionService --> EvaluacionController : Resultado del procesamiento
+deactivate EvaluacionService
+
+EvaluacionController --> Backend : Respuesta final
+deactivate EvaluacionController
+Backend --> EvaluacionService : Respuesta exitosa
+deactivate Backend
+EvaluacionService --> PConocimientosComponentLm : Resultado del backend
+deactivate EvaluacionService
+PConocimientosComponentLm -> Usuario : Feedback del resultado
+deactivate PConocimientosComponentLm
+@enduml

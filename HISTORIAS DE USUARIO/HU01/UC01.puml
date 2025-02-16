@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Módulo {
+  usecase "Evaluar postulación\nde candidatos" as UC01
+  usecase "Seleccionar candidato\na evaluar" as UC01_1
+  usecase "Visualizar requisitos\ndel puesto" as UC01_2
+  usecase "Comparar requisitos\ncon perfil del candidato" as UC01_3
+  usecase "Calcular puntaje\ndel candidato" as UC01_4
+  usecase "Determinar puntaje\nmínimo cumplido" as UC01_5
+}
+}
+
+'' Relaciones principales del flujo
+ActorAnalista --> UC01 : "Inicia evaluación"
+UC01 --> UC01_1 : <<include>>
+UC01 --> UC01_2 : <<include>>
+UC01 --> UC01_3 : <<include>>
+UC01 --> UC01_4 : <<include>>
+UC01 --> UC01_5 : <<include>>
+
+'' Resultado al finalizar todo el proceso
+ActorAnalista <-- UC01_5 : "Recibe resultados"
+
+@enduml
