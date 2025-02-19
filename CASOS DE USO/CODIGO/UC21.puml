@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Modulo {
+
+  usecase "Registrar postulante\ncomo ganador" as UC21
+  usecase "Identificar postulante\nalternativo" as UC21_1
+  usecase "Actualizar estado\ndel nuevo ganador" as UC21_2
+  usecase "Notificar\nal nuevo ganador" as UC21_3
+}
+}
+
+'' Relaciones principales del caso de uso
+ActorAnalista --> UC21 : "Solicitar registro como ganador"
+UC21 --> UC21_1 : <<include>>
+
+'' Generalización de tareas del proceso de registro
+UC21_1 <|-- UC21_2
+UC21_2 <|-- UC21_3
+
+@enduml

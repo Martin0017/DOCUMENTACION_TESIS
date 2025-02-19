@@ -1,0 +1,27 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Postulante" as Postulante
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Elegibilidad" as Modulo {
+
+  usecase "Notificar postulantes\ndeclarados elegibles" as UC23
+  usecase "Generar lista\nde postulantes elegibles" as UC23_1
+  usecase "Preparar mensaje\nde notificación" as UC23_2
+  usecase "Enviar notificaciones\na postulantes elegibles" as UC23_3
+}
+}
+
+'' Relaciones principales del caso de uso
+UC23 --> UC23_1 : <<include>>
+UC23_1 <|-- UC23_2
+UC23_2 <|-- UC23_3
+UC23_3 --> Postulante : "Recibir notificaciones"
+
+@enduml

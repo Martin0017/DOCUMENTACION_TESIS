@@ -1,0 +1,30 @@
+@startuml
+participant Actor
+Actor -> ColorController : email
+activate ColorController
+ColorController -> EmailDto : builder
+activate EmailDto
+EmailDto --> ColorController
+deactivate EmailDto
+ColorController -> EmailDtoBuilder : asunto
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+ColorController -> EmailDtoBuilder : mensaje
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+ColorController -> EmailDtoBuilder : destinatario
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+ColorController -> EmailDtoBuilder : build
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+ColorController -> EmailService : sendEmail
+activate EmailService
+EmailService --> ColorController
+deactivate EmailService
+return
+@enduml

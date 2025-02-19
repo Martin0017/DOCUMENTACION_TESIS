@@ -1,0 +1,36 @@
+@startuml
+participant Actor
+Actor -> PuntajeFinalTentativoComponent: inicializarComponente
+activate PuntajeFinalTentativoComponent
+
+PuntajeFinalTentativoComponent -> PuestoPersistService: obtenerPuestoPorRuta
+activate PuestoPersistService
+PuestoPersistService --> PuntajeFinalTentativoComponent: puesto
+deactivate PuestoPersistService
+
+PuntajeFinalTentativoComponent -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+
+PostulantePuestoService -> PostulantePuestoController: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoController
+PostulantePuestoController -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoRepository
+PostulantePuestoRepository -> PostulantePuestoMapper: toDto
+activate PostulantePuestoMapper
+PostulantePuestoMapper --> PostulantePuestoRepository: postulantesTransformados
+deactivate PostulantePuestoMapper
+PostulantePuestoRepository --> PostulantePuestoService: postulantes
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoController: postulantes
+deactivate PostulantePuestoService
+PostulantePuestoController --> PostulantePuestoService: respuesta
+deactivate PostulantePuestoController
+PostulantePuestoService --> PuntajeFinalTentativoComponent: listaPostulantes
+deactivate PostulantePuestoService
+
+PuntajeFinalTentativoComponent -> PuntajeFinalTentativoComponent: filtrarYMostrarDatos
+PuntajeFinalTentativoComponent --> Actor: renderizarEnTabla
+deactivate PuntajeFinalTentativoComponent
+@enduml

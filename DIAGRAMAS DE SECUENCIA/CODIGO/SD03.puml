@@ -1,0 +1,34 @@
+@startuml
+participant Actor
+Actor -> VerificacionController : notifyMerit
+activate VerificacionController
+VerificacionController -> UserInfoService : getUserInfo
+activate UserInfoService
+UserInfoService --> VerificacionController
+deactivate UserInfoService
+VerificacionController -> VerificacionService : notifyApplicantAndChangeStatus
+activate VerificacionService
+VerificacionService -> VerificacionService : postulantePuestoDto ->
+activate VerificacionService
+VerificacionService -> PostulantePuestoService : updateStatusOfAApplicantById
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository : updateStatusOfAApplicantById
+activate PostulantePuestoRepository
+PostulantePuestoRepository --> PostulantePuestoService
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> VerificacionService
+deactivate PostulantePuestoService
+VerificacionService -> PostulantePuestoService : updateStatusOfAApplicantById
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository : updateStatusOfAApplicantById
+activate PostulantePuestoRepository
+PostulantePuestoRepository --> PostulantePuestoService
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> VerificacionService
+deactivate PostulantePuestoService
+VerificacionService --> VerificacionService
+deactivate VerificacionService
+VerificacionService --> VerificacionController
+deactivate VerificacionService
+return
+@enduml

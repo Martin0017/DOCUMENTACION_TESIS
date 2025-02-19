@@ -1,0 +1,19 @@
+@startuml
+participant Actor
+Actor -> PdfController : generateInterviewPdf
+activate PdfController
+PdfController -> PdfService : writePdfByInteractiveFields
+activate PdfService
+PdfService -> MinioService : getFile
+activate MinioService
+create DataException
+MinioService -> DataException : new
+activate DataException
+DataException --> MinioService
+deactivate DataException
+MinioService --> PdfService
+deactivate MinioService
+PdfService --> PdfController
+deactivate PdfService
+return
+@enduml

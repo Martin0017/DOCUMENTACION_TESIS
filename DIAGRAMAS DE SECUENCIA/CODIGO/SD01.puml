@@ -1,0 +1,42 @@
+@startuml
+participant Actor
+Actor -> VerificacionController : saveMerit
+activate VerificacionController
+VerificacionController -> UserInfoService : getUserInfo
+activate UserInfoService
+UserInfoService --> VerificacionController
+deactivate UserInfoService
+VerificacionController -> VerificacionService : saveVerifyDataOfAApplicant
+activate VerificacionService
+VerificacionService -> VerificacionRepository : updateDescripcionAndNotaById
+activate VerificacionRepository
+VerificacionRepository --> VerificacionService
+deactivate VerificacionRepository
+VerificacionService -> VerificacionCumplimientoMapper : toEntity
+activate VerificacionCumplimientoMapper
+VerificacionCumplimientoMapper --> VerificacionService
+deactivate VerificacionCumplimientoMapper
+VerificacionService --> VerificacionController
+deactivate VerificacionService
+return
+
+Participant RequisitosComponent
+Actor -> RequisitosComponent: inicializarRequisitos
+activate RequisitosComponent
+RequisitosComponent -> VerificacionService: obtenerRequisitosAgrupados
+activate VerificacionService
+VerificacionService --> RequisitosComponent: devolverRequisitosAgrupados
+deactivate VerificacionService
+RequisitosComponent --> Actor: renderizarDatosUI
+deactivate RequisitosComponent
+
+Participant ListadoPostulantesComponent
+Actor -> ListadoPostulantesComponent: cargarPostulantes
+activate ListadoPostulantesComponent
+ListadoPostulantesComponent -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService --> ListadoPostulantesComponent: devolverPostulantes
+deactivate PostulantePuestoService
+ListadoPostulantesComponent --> Actor: mostrarPostulantes
+deactivate ListadoPostulantesComponent
+@enduml

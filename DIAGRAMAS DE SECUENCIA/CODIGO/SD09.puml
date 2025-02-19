@@ -1,0 +1,51 @@
+@startuml
+participant Actor
+Actor -> ReporteComponent: abrirDialogo
+activate ReporteComponent
+
+ReporteComponent -> ReporteComponent: agregarEvaluacion
+activate ReporteComponent
+ReporteComponent --> ReporteComponent: listaEvaluacionesActualizada
+deactivate ReporteComponent
+
+Actor -> ReporteComponent: guardarEvaluaciones
+activate ReporteComponent
+ReporteComponent -> ReporteComponent: enviarEvaluaciones
+ReporteComponent --> Actor: cerrarDialogo
+deactivate ReporteComponent
+
+ReporteComponent -> ColorController: email
+activate ColorController
+ColorController -> EmailDto: builder
+activate EmailDto
+EmailDto --> ColorController: construirDto
+deactivate EmailDto
+
+ColorController -> EmailDtoBuilder: asunto
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+
+ColorController -> EmailDtoBuilder: mensaje
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+
+ColorController -> EmailDtoBuilder: destinatario
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController
+deactivate EmailDtoBuilder
+
+ColorController -> EmailDtoBuilder: build
+activate EmailDtoBuilder
+EmailDtoBuilder --> ColorController: dtoConstruido
+deactivate EmailDtoBuilder
+
+ColorController -> EmailService: sendEmail
+activate EmailService
+EmailService --> ColorController: confirmacion
+deactivate EmailService
+
+ColorController --> ReporteComponent: notificacionEnvio
+deactivate ColorController
+@enduml

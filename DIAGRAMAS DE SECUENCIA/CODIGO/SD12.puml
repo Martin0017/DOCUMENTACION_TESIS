@@ -1,0 +1,86 @@
+@startuml
+participant Actor
+Actor -> EntrevistaComponent: iniciarFormulario
+activate EntrevistaComponent
+
+EntrevistaComponent -> PuestoPersistService: obtenerPuestoActual
+activate PuestoPersistService
+PuestoPersistService --> EntrevistaComponent: puesto
+deactivate PuestoPersistService
+
+EntrevistaComponent -> PostulantePuestoService: obtenerPostulantes
+activate PostulantePuestoService
+PostulantePuestoService --> EntrevistaComponent: listaPostulantes
+deactivate PostulantePuestoService
+
+Actor -> EntrevistaComponent: guardarEvaluación
+activate EntrevistaComponent
+
+EntrevistaComponent -> FirmaDigitalComponent: ver()
+activate FirmaDigitalComponent
+FirmaDigitalComponent -> EvaluacionService: saveUntilResponses(evaluacion)
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionController: saveUntilResponses
+activate EvaluacionController
+
+EvaluacionController -> UserInfoService: getUserInfo
+activate UserInfoService
+UserInfoService --> EvaluacionController: userInfo
+deactivate UserInfoService
+
+EvaluacionController -> EvaluacionService: saveUntilResponses
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionTipoService: save
+activate EvaluacionTipoService
+
+EvaluacionTipoService -> EvaluacionTipoMapper: toEntity
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService: entidad
+deactivate EvaluacionTipoMapper
+
+EvaluacionTipoService -> EvaluacionTipoMapper: toDto
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService: dto
+deactivate EvaluacionTipoMapper
+
+EvaluacionTipoService --> EvaluacionService: evaluarTipoGuardado
+deactivate EvaluacionTipoService
+
+EvaluacionService -> EvaluacionMapper: toEntity
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService: entidadEvaluacion
+deactivate EvaluacionMapper
+
+EvaluacionService -> EvaluacionMapper: toDto
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService: dtoEvaluacion
+deactivate EvaluacionMapper
+
+EvaluacionService -> RespuestaService: save(respuestas)
+activate RespuestaService
+RespuestaService --> EvaluacionService
+deactivate RespuestaService
+
+EvaluacionService -> PreguntaService: save(preguntas)
+activate PreguntaService
+PreguntaService --> EvaluacionService
+deactivate PreguntaService
+
+EvaluacionService --> EvaluacionController: confirmación
+deactivate EvaluacionService
+
+EvaluacionController --> EvaluacionService: resultadoFinal
+deactivate EvaluacionController
+
+EvaluacionService --> FirmaDigitalComponent: guardadoExitoso
+deactivate EvaluacionService
+
+FirmaDigitalComponent --> EntrevistaComponent: evaluaciónCompletada
+deactivate FirmaDigitalComponent
+
+EntrevistaComponent -> EntrevistaComponent: mostrarMensajeExito
+EntrevistaComponent --> Actor: confirmación
+deactivate EntrevistaComponent
+@enduml

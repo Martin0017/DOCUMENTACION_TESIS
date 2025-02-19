@@ -1,0 +1,50 @@
+@startuml
+participant Actor
+Actor -> EvaluacionController : saveUntilResponses
+activate EvaluacionController
+EvaluacionController -> UserInfoService : getUserInfo
+activate UserInfoService
+UserInfoService --> EvaluacionController
+deactivate UserInfoService
+EvaluacionController -> EvaluacionService : saveUntilResponses
+activate EvaluacionService
+EvaluacionService -> EvaluacionTipoService : save
+activate EvaluacionTipoService
+EvaluacionTipoService -> EvaluacionTipoMapper : toEntity
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService
+deactivate EvaluacionTipoMapper
+EvaluacionTipoService -> EvaluacionTipoMapper : toDto
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService
+deactivate EvaluacionTipoMapper
+EvaluacionTipoService --> EvaluacionService
+deactivate EvaluacionTipoService
+EvaluacionService -> EvaluacionService : save
+activate EvaluacionService
+EvaluacionService -> EvaluacionMapper : toEntity
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService
+deactivate EvaluacionMapper
+EvaluacionService -> EvaluacionMapper : toDto
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService
+deactivate EvaluacionMapper
+EvaluacionService -> EvaluacionService : preguntaDto ->
+activate EvaluacionService
+EvaluacionService -> RespuestaService : save
+activate RespuestaService
+RespuestaService --> EvaluacionService
+deactivate RespuestaService
+EvaluacionService -> PreguntaService : save
+activate PreguntaService
+PreguntaService --> EvaluacionService
+deactivate PreguntaService
+EvaluacionService --> EvaluacionService
+deactivate EvaluacionService
+EvaluacionService --> EvaluacionService
+deactivate EvaluacionService
+EvaluacionService --> EvaluacionController
+deactivate EvaluacionService
+return
+@enduml

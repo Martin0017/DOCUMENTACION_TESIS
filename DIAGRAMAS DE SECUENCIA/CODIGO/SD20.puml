@@ -1,0 +1,18 @@
+@startuml
+participant Actor
+Actor -> PostulantePuestoController : updateStatusOfAApplicantById
+activate PostulantePuestoController
+PostulantePuestoController -> UserInfoService : getUserInfo
+activate UserInfoService
+UserInfoService --> PostulantePuestoController
+deactivate UserInfoService
+PostulantePuestoController -> PostulantePuestoService : updateStatusOfAApplicantById
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository : updateStatusOfAApplicantById
+activate PostulantePuestoRepository
+PostulantePuestoRepository --> PostulantePuestoService
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoController
+deactivate PostulantePuestoService
+return
+@enduml

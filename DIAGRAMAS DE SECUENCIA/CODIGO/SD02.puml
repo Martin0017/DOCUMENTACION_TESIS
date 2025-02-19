@@ -1,0 +1,29 @@
+@startuml
+participant Actor
+Actor -> ReporteAlMeritoComponent: inicializarReporte
+activate ReporteAlMeritoComponent
+ReporteAlMeritoComponent -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+
+PostulantePuestoService -> PostulantePuestoController : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoController
+PostulantePuestoController -> PostulantePuestoService : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoRepository
+PostulantePuestoRepository -> PostulantePuestoMapper : toDto
+activate PostulantePuestoMapper
+PostulantePuestoMapper --> PostulantePuestoRepository : datosTransformados
+deactivate PostulantePuestoMapper
+PostulantePuestoRepository --> PostulantePuestoService : datosPostulantes
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoController : listaDePostulantes
+deactivate PostulantePuestoService
+PostulantePuestoController --> PostulantePuestoService : respuesta
+deactivate PostulantePuestoController
+PostulantePuestoService --> ReporteAlMeritoComponent: datosFiltrados
+deactivate PostulantePuestoService
+
+ReporteAlMeritoComponent --> Actor: mostrarDatosEnTabla
+deactivate ReporteAlMeritoComponent
+@enduml

@@ -1,0 +1,58 @@
+@startuml
+participant Actor
+Actor -> PuntajeFinalTentativoComponent: cargarPuntajes
+activate PuntajeFinalTentativoComponent
+
+PuntajeFinalTentativoComponent -> PuestoPersistService: obtenerPuestoActual
+activate PuestoPersistService
+PuestoPersistService --> PuntajeFinalTentativoComponent: puesto
+deactivate PuestoPersistService
+
+PuntajeFinalTentativoComponent -> PostulantePuestoService: obtenerPostulantesPorPuestoYEstado
+activate PostulantePuestoService
+
+PostulantePuestoService -> PostulantePuestoController: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoController
+PostulantePuestoController -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoRepository
+PostulantePuestoRepository -> PostulantePuestoMapper: toDto
+activate PostulantePuestoMapper
+PostulantePuestoMapper --> PostulantePuestoRepository
+deactivate PostulantePuestoMapper
+PostulantePuestoRepository --> PostulantePuestoService: postulantes
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoController: listaPostulantes
+deactivate PostulantePuestoService
+PostulantePuestoController --> PostulantePuestoService: respuesta
+deactivate PostulantePuestoController
+PostulantePuestoService --> PuntajeFinalTentativoComponent: listaPostulantes
+deactivate PostulantePuestoService
+
+PuntajeFinalTentativoComponent -> TablaEditableComponent: mostrarDatosEnTabla
+activate TablaEditableComponent
+TablaEditableComponent -> TablaEditableComponent: procesarFiltrosYEditar
+deactivate TablaEditableComponent
+TablaEditableComponent --> PuntajeFinalTentativoComponent: datosEditados
+deactivate PuntajeFinalTentativoComponent
+
+Actor -> TablaEditableComponent: editarFila
+activate TablaEditableComponent
+TablaEditableComponent -> TablaEditableComponent: guardarCambiosEnFila
+TablaEditableComponent --> Actor: confirmarEdición
+deactivate TablaEditableComponent
+
+Actor -> PuntajeFinalTentativoComponent: confirmarNotificaciónFinal
+PuntajeFinalTentativoComponent -> ConfirmacionDialogComponent: abrirDialogo
+activate ConfirmacionDialogComponent
+ConfirmacionDialogComponent --> PuntajeFinalTentativoComponent: confirmación
+deactivate ConfirmacionDialogComponent
+
+PuntajeFinalTentativoComponent -> EmailService: enviarNotificaciones
+activate EmailService
+EmailService --> PuntajeFinalTentativoComponent: confirmaciónEnvío
+deactivate EmailService
+
+PuntajeFinalTentativoComponent --> Actor: mostrarNotificación
+@enduml

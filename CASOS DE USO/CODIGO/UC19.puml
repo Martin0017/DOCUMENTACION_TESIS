@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #F9F9F9
+skinparam actorBackgroundColor #8CBDF5
+skinparam usecaseBackgroundColor #FFFFFF
+skinparam usecaseBorderColor #01579B
+
+top to bottom direction
+
+actor "Analista de Talento Humano" as ActorAnalista
+
+
+rectangle "Sistema de Contratación de Talento Humano" as Sistema {
+package "<<module>> \n Módulo - Evaluación" as Modulo {
+
+  usecase "Registrar postulantes\ncomo 'elegibles'" as UC20
+  usecase "Validar\npuntaje mínimo" as UC20_1
+  usecase "Asignar estado:\nElegible" as UC20_2
+  usecase "Almacenar datos\nde elegibilidad" as UC20_3
+}
+}
+
+'' Relaciones principales del caso de uso
+ActorAnalista --> UC20 : "Solicitar registro"
+UC20 --> UC20_1 : <<include>>
+
+'' Generalización de procesos de registro
+UC20_1 <|-- UC20_2
+UC20_2 <|-- UC20_3
+
+UC20_3 --> "Base de Datos" : "Actualiza registros"
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+participant Actor
+Actor -> PostulantePuestoController : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoController
+PostulantePuestoController -> PostulantePuestoService : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoService : s ->
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository : findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoRepository
+PostulantePuestoRepository -> PostulantePuestoMapper : toDto
+activate PostulantePuestoMapper
+PostulantePuestoMapper --> PostulantePuestoRepository
+deactivate PostulantePuestoMapper
+PostulantePuestoRepository --> PostulantePuestoService
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoService
+deactivate PostulantePuestoService
+PostulantePuestoService --> PostulantePuestoController
+deactivate PostulantePuestoService
+return
+@enduml

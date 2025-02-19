@@ -1,0 +1,54 @@
+@startuml
+participant Actor
+Actor -> PruebaPsicosomaticaComponent: iniciarPrueba
+activate PruebaPsicosomaticaComponent
+PruebaPsicosomaticaComponent -> GlobalUserService: obtenerUsuarioGlobal
+activate GlobalUserService
+GlobalUserService --> PruebaPsicosomaticaComponent: datosUsuario
+deactivate GlobalUserService
+
+PruebaPsicosomaticaComponent -> PruebaPsicosomaticaComponent: cargarDatos
+PruebaPsicosomaticaComponent -> EvaluacionService: guardarMultiplesEvaluaciones
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionController: guardarMultiples
+activate EvaluacionController
+EvaluacionController -> UserInfoService: getUserInfo
+activate UserInfoService
+UserInfoService --> EvaluacionController: datosUsuario
+deactivate UserInfoService
+
+EvaluacionController -> EvaluacionService: saveMultiple
+activate EvaluacionService
+EvaluacionService -> EvaluacionService: transformarDtoEvaluaciones
+activate EvaluacionService
+
+EvaluacionService -> EvaluacionTipoService: save
+activate EvaluacionTipoService
+EvaluacionTipoService -> EvaluacionTipoMapper: toEntity
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService: entidadTransformada
+deactivate EvaluacionTipoMapper
+
+EvaluacionTipoService -> EvaluacionTipoMapper: toDto
+activate EvaluacionTipoMapper
+EvaluacionTipoMapper --> EvaluacionTipoService: dtoTransformado
+deactivate EvaluacionTipoMapper
+EvaluacionTipoService --> EvaluacionService
+deactivate EvaluacionTipoService
+
+EvaluacionService -> EvaluacionMapper: toEntity
+activate EvaluacionMapper
+EvaluacionMapper --> EvaluacionService: entidadEvaluacion
+deactivate EvaluacionMapper
+
+EvaluacionService --> EvaluacionController: respuestaExito
+deactivate EvaluacionService
+EvaluacionController --> EvaluacionService: confirmaGuardado
+deactivate EvaluacionController
+EvaluacionService --> PruebaPsicosomaticaComponent: evaluacionesGuardadas
+deactivate EvaluacionService
+
+PruebaPsicosomaticaComponent --> Actor: mostrarResultadosEnUI
+deactivate PruebaPsicosomaticaComponent
+@enduml

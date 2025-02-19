@@ -1,0 +1,36 @@
+@startuml
+participant Actor
+Actor -> ListadoPostulantesComponent: cargarListado
+activate ListadoPostulantesComponent
+
+ListadoPostulantesComponent -> PuestoPersistService: obtenerPuestoActual
+activate PuestoPersistService
+PuestoPersistService --> ListadoPostulantesComponent: puesto
+deactivate PuestoPersistService
+
+ListadoPostulantesComponent -> PostulantePuestoService: obtenerPostulantesPorPuestoYEstado
+activate PostulantePuestoService
+
+PostulantePuestoService -> PostulantePuestoController: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoController
+PostulantePuestoController -> PostulantePuestoService: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoService
+PostulantePuestoService -> PostulantePuestoRepository: findAllApplicantsByJobIdAndStatus
+activate PostulantePuestoRepository
+PostulantePuestoRepository -> PostulantePuestoMapper: toDto
+activate PostulantePuestoMapper
+PostulantePuestoMapper --> PostulantePuestoRepository: listaTransformada
+deactivate PostulantePuestoMapper
+PostulantePuestoRepository --> PostulantePuestoService: postulantes
+deactivate PostulantePuestoRepository
+PostulantePuestoService --> PostulantePuestoController: respuesta
+deactivate PostulantePuestoService
+PostulantePuestoController --> PostulantePuestoService: listaPostulantes
+deactivate PostulantePuestoController
+PostulantePuestoService --> ListadoPostulantesComponent: listaPostulantes
+deactivate PostulantePuestoService
+
+ListadoPostulantesComponent -> ListadoPostulantesComponent: filtrarYMostrarDatos
+ListadoPostulantesComponent --> Actor: mostrarTablaEnInterfaz
+deactivate ListadoPostulantesComponent
+@enduml
